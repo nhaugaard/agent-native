@@ -1,0 +1,61 @@
+# Planlægning med /visual-plan i AI App
+
+Hvordan threads i AI App-projektet (vores Dex-inspirerede app på Agent-Native)
+bruger den hostede Plan-MCP til planer, recaps og review.
+
+Levende version med diagram: [Planlægning med /visual-plan i AI App](https://plan.agent-native.com/plans/plan-5362de37705a4d83)
+(privat plan i Nikolajs Plan-konto).
+
+## Status
+
+Verificeret 1. november 2026 fra en cloud-thread:
+
+- Connectoren hedder `Plan`, og dens tools er deferred (`mcp__Plan__*`).
+  Indlæs dem med ToolSearch, fx `select:mcp__Plan__create-visual-plan`.
+- Connectoren er logget ind som Nikolaj. Nye planer lander i hans konto som
+  private planer.
+- `list-visual-plans`, `get-visual-plan`, `get-plan-blocks`,
+  `create-visual-plan` og `update-visual-plan` virker uden ekstra login.
+
+## Flow
+
+1. Indlæs skill'et `visual-plan` (eller `visual-recap`), og læs `CLAUDE.md`,
+   `AGENTS.md` og den relevante skill i `.agents/skills/`.
+2. Research repoet. Planlægning er read-only.
+3. Kald `get-plan-blocks`, og opret derefter præcis én plan med det
+   værktøj, der passer til opgaven (tabellen nedenfor).
+4. Post `openLink.webUrl` fra svaret i threaden. Feltet `url` fra
+   `create-visual-plan` er kun en relativ sti (`/plans/<id>`) og virker ikke
+   som link.
+5. Nikolaj kommenterer i planen. Hent kommentarerne med `get-plan-feedback`,
+   ret med `update-visual-plan` og `contentPatches`, og verificér med
+   `get-visual-plan`.
+
+| Opgave                                       | Værktøj                              |
+| -------------------------------------------- | ------------------------------------ |
+| Arkitektur, data, actions, backend           | `create-visual-plan` (ingen canvas)  |
+| UI-skærme og tilstande                       | `create-ui-plan`                     |
+| Klikbart flow                                | `create-prototype-plan`              |
+| Fuld branded design (kun på eksplicit ønske) | `create-plan-design`                 |
+| Opsummering af en PR eller branch            | skill `visual-recap`                 |
+| Diagrammer til rapporter og artifacts        | skill `diagram-design`, standardtema |
+
+## Browser
+
+Cloud-threads har ingen indbygget browser-tool: hverken `Claude_Browser`-tools
+eller et enable-tool er tilgængeligt, heller ikke når sessionen er linket til
+Nikolajs Mac. Globe-ikonet i thread-vinduet er Nikolajs egen browser-rude i
+Claude-appen, og agenten kan ikke styre den. Threads poster derfor URL'en, og
+Nikolaj åbner den selv.
+
+Åbn aldrig Chrome på Nikolajs lokale system, heller ikke via computer use
+eller `open`-kommandoer.
+
+## Fejl
+
+- Tools ikke synlige: søg med ToolSearch efter `create-visual-plan`.
+  Connectoren kan også hedde `plan` eller `agent-native-plans`.
+- `needs auth`, `Unauthorized` eller `Session terminated`: stop med at prøve
+  igen, og bed koordinatoren få Nikolaj til at genforbinde Plan-connectoren i
+  Claude-appens connector-indstillinger. Lever aldrig planen som Markdown i
+  chatten i stedet.
