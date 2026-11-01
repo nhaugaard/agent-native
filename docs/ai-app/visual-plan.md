@@ -42,11 +42,20 @@ Verificeret 1. november 2026 fra en cloud-thread:
 
 ## Browser
 
-Cloud-threads har ingen indbygget browser-tool: hverken `Claude_Browser`-tools
-eller et enable-tool er tilgængeligt, heller ikke når sessionen er linket til
-Nikolajs Mac. Globe-ikonet i thread-vinduet er Nikolajs egen browser-rude i
-Claude-appen, og agenten kan ikke styre den. Threads poster derfor URL'en, og
-Nikolaj åbner den selv.
+Globe-ikonet i thread-vinduet åbner Claude-appens indbyggede browser ("Browse
+with Claude"). Agenten kan kun styre den, hvis sessionen har fået
+browser-tools: `mcp__remote-devices__Claude_Browser__*` eller et enkelt
+`enable__mcp__remote-devices__Claude_Browser`, som slår dem til.
+
+Tjek ved opgavestart med ToolSearch (`+Claude_Browser`):
+
+- Tools findes: indlæs skill'et `built-in-browser`, indlæs alle tools i ét
+  kald, og åbn planen med `preview_start` og `url`.
+- Ingen tools: post planens URL i threaden, og Nikolaj åbner den i
+  browser-ruden.
+
+Pr. 1. november 2026 fik en cloud-thread ingen browser-tools, heller ikke
+efter at ruden var åben og sessionen var linket til Nikolajs Mac.
 
 Åbn aldrig Chrome på Nikolajs lokale system, heller ikke via computer use
 eller `open`-kommandoer.
