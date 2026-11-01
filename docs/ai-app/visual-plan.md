@@ -55,7 +55,12 @@ Tjek ved opgavestart med ToolSearch (`+Claude_Browser`):
   browser-ruden.
 
 Pr. 1. november 2026 fik en cloud-thread ingen browser-tools, heller ikke
-efter at ruden var åben og sessionen var linket til Nikolajs Mac.
+efter at ruden var åben og sessionen var linket til Nikolajs Mac. En ny
+thread, startet efter at ruden var åbnet, fik heller ingen: ToolSearch fandt
+hverken `+Claude_Browser` eller `remote-devices`. En ny thread arver altså
+ikke browser-ruden af sig selv. Næste forsøg er at threaden beder om
+enhedsadgang med formålet `browser` (kort i threaden, som Nikolaj godkender),
+og derefter søger med ToolSearch igen.
 
 Åbn aldrig Chrome på Nikolajs lokale system, heller ikke via computer use
 eller `open`-kommandoer.
