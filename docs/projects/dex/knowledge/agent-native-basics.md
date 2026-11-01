@@ -42,8 +42,8 @@ Hver feature med nye data eller en ny evne berører: **1) UI**, **2) actions**,
 - **`build-an-app`**: den konkrete byggeopskrift (data, actions, UI,
   instruktioner, verifikation).
 - **Scaffold:** `npx --yes @agent-native/core@latest create <slug> --standalone
---template chat` (selvstændig app) eller `pnpm exec agent-native add-app
-<slug> --template chat` inde i et workspace. Tjek seneste version først.
+--template chat` (selvstændig app). Workspace (`add-app`) er udelukket for
+dette projekt. Tjek seneste version først.
 - **Eksisterende CRM-skabelon:** `templates/crm` (skjult i det offentlige
   katalog) har typede attributter, lister, saved views, dublet-detektion og
   fletning. Læs den som reference, før vi designer egne løsninger på samme
